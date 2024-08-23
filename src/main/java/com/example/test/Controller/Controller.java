@@ -1,7 +1,7 @@
 package com.example.test.Controller;
 import com.example.test.Model.Staff;
 import com.example.test.Repository.StaffRepo;
-import com.example.test.Seciver.ExcelSevice;
+import com.example.test.Seciver.Excel;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -23,10 +22,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
-public class StaffController {
+@org.springframework.stereotype.Controller
+public class Controller {
     @Autowired
-    ExcelSevice excelService;
+    Excel excelService;
     @Autowired
     private StaffRepo staffRepo;
 

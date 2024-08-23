@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "department_facility")
-public class departmenFacility {
+public class departmen {
     @Id
     @GeneratedValue
     private UUID id;
