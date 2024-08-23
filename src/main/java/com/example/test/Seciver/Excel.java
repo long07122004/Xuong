@@ -1,5 +1,5 @@
 package com.example.test.Seciver;
-import com.example.test.Model.Staff;
+import com.example.test.Model.NhanVien;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -13,8 +13,8 @@ import java.util.List;
 
 @Service
 public class Excel {
-    public List<Staff> importStaff(MultipartFile file) throws IOException {
-        List<Staff> staffList = new ArrayList<>();
+    public List<NhanVien> importStaff(MultipartFile file) throws IOException {
+        List<NhanVien> staffList = new ArrayList<>();
         try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
             XSSFSheet sheet = workbook.getSheetAt(0);
             Iterator<Row> rowIterator = sheet.iterator();
@@ -22,7 +22,7 @@ public class Excel {
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                Staff staff = new Staff();
+                NhanVien staff = new NhanVien();
                 staff.setStaffCode(getCellValue(row.getCell(1)));
                 staff.setName(getCellValue(row.getCell(2)));
                 staff.setAccountFE(getCellValue(row.getCell(3)));

@@ -1,6 +1,6 @@
 package com.example.test.Controller;
-import com.example.test.Model.Staff;
-import com.example.test.Repository.StaffRepo;
+import com.example.test.Model.NhanVien;
+import com.example.test.Repository.NhanVienRep;
 import com.example.test.Seciver.Excel;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,21 +23,21 @@ import java.util.List;
 import java.util.UUID;
 
 @org.springframework.stereotype.Controller
-public class Controller {
+public class NhanVienController {
     @Autowired
     Excel excelService;
     @Autowired
-    private StaffRepo staffRepo;
+    private NhanVienRep staffRepo;
 
     @RequestMapping("/home")
     public String home(Model model) {
         model.addAttribute("staff", staffRepo.findAll());
-        model.addAttribute("staffEr", new Staff());
+        model.addAttribute("staffEr", new NhanVien());
         return "Home";
     }
 
     @PostMapping("/add/staff")
-    public String add(@Validated @ModelAttribute Staff staff, Errors errors, Model model) {
+    public String add(@Validated @ModelAttribute NhanVien staff, Errors errors, Model model) {
         if (errors.hasErrors()) {
             model.addAttribute("staffEr", staff);
             return "Home";
@@ -76,7 +76,7 @@ public class Controller {
 
     @GetMapping("/staff/doi")
     public String changeStatus(@RequestParam("id") UUID id, Model model) {
-        Staff staff = staffRepo.findById(id).orElse(null);
+        NhanVien staff = staffRepo.findById(id).orElse(null);
         if (staff != null) {
             staff.setStatus(staff.getStatus() == 1 ? 0 : 1);
             staffRepo.save(staff);
@@ -90,14 +90,14 @@ public class Controller {
 
     @GetMapping("/detail/staff")
     public String detail(@RequestParam("id") UUID id, Model model) {
-        Staff staff = staffRepo.findById(id).orElse(null);
+        NhanVien staff = staffRepo.findById(id).orElse(null);
         model.addAttribute("staff", staff);
 
         return "Detail";
     }
 
     @PostMapping("/update/staff")
-    public String updateStaff(@ModelAttribute("staff") @Validated Staff staff, BindingResult result, Model model) {
+    public String updateStaff(@ModelAttribute("staff") @Validated NhanVien staff, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "Detail";
         }
@@ -119,7 +119,7 @@ public class Controller {
     }
     @GetMapping("/export/excel")
     public ResponseEntity<byte[]> exportToExcel() throws IOException {
-        List<Staff> staffList = staffRepo.findAll(); // Lấy toàn bộ dữ liệu từ database
+        List<NhanVien> staffList = staffRepo.findAll(); // Lấy toàn bộ dữ liệu từ database
 
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Staff List");
@@ -135,7 +135,7 @@ public class Controller {
 
         // Tạo các dòng dữ liệu
         int rowIndex = 1;
-        for (Staff staff : staffList) {
+        for (NhanVien staff : staffList) {
             Row row = sheet.createRow(rowIndex++);
             row.createCell(0).setCellValue(staff.getId().toString());
             row.createCell(1).setCellValue(staff.getStaffCode());
@@ -163,7 +163,7 @@ public class Controller {
     @PostMapping("/import/staff")
     public String importStaff(@RequestParam("file") MultipartFile file, Model model) {
         try {
-            List<Staff> staffList = excelService.importStaff(file);
+            List<NhanVien> staffList = excelService.importStaff(file);
             staffRepo.saveAll(staffList);
             model.addAttribute("message", "Import thành công");
         } catch (IOException e) {

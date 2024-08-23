@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Entity
 @Table(name = "staff")
-public class Staff {
+public class NhanVien {
     @Id
     @GeneratedValue
     private UUID id;
